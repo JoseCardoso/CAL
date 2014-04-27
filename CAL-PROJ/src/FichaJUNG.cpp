@@ -259,7 +259,7 @@ int main() {
 	Graph graph2;
 	Vertex v1(0 ,"T1", 1);
 	Vertex v2(1, "T2", 2);
-	Vertex v3(2,"T3",1);
+	Vertex v3(2,"T3",3);
 	Vertex v4(3,"T4",2);
 	Vertex v5(4,"T5",2);
 	graph2.addVertex(v1);
@@ -275,6 +275,7 @@ int main() {
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
 
 	vector<Vertex> lel = graph2.topologicalOrder();
+	//cout << lel.size();
 	for(unsigned int i =0; i <lel.size();i++)
 	{
 		if(i == lel.size()-1)

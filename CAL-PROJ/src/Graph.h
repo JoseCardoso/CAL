@@ -175,7 +175,8 @@ public:
 
 		priority_queue<Vertex> q;
 
-		vector<Vertex> sources = getSources();
+		vector<Vertex> sources = vertexSet;
+		sources.erase(sources.begin());
 		while( !sources.empty() ) {
 			q.push( sources.back() );
 			sources.pop_back();
@@ -195,10 +196,10 @@ public:
 		}
 
 		//testar se o procedimento foi bem sucedido
-		if ( res.size() != vertexSet.size() -1 ) {
+	/*	if ( res.size() != vertexSet.size() -1 ) {
 			while( !res.empty() ) res.pop_back();
 		}
-
+*/
 		//garantir que os "indegree" ficam atualizados no final
 		//this->resetIndegrees();
 		return res;

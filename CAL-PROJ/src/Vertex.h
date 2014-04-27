@@ -32,11 +32,11 @@ public:
 
 	bool operator< (const Vertex &v2) const
 	{
-		cout<< name << indegree << v2.name << v2.indegree << endl;
+		//cout<< name << indegree << v2.name << v2.indegree << endl;
 		if ( indegree != v2.indegree)
-			return indegree > v2.indegree;
+			return indegree < v2.indegree;
 		else
-			return priority < v2.priority;
+			return priority > v2.priority;
 	}
 
 	
@@ -62,10 +62,10 @@ public:
 
 	void addEdgeIn ( Edge edge )
 	{
-		cout<<"name " <<name << endl;
+		//cout<<"name " <<name << endl;
 		in.push_back(edge);
 		indegree++;
-		cout<<"indegree" << indegree <<endl;
+	//	cout<<"indegree" << indegree <<endl;
 	}
 
 	int getId() const {
