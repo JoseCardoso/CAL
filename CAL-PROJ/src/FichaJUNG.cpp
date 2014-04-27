@@ -225,12 +225,11 @@ void exercicio3()
 		linestream >> idNoDestino;
 		// gv->addEdge(idAresta,idNoOrigem,idNoDestino, EdgeType::DIRECTED);
 		// gv->rearrange();
-		int lel = graph1.getVertexSet().size();
 		Vertex * ori ;
 		ori = &(graph1.getVertexSet()[1]);
 		Vertex * desti;
 		desti= &(graph1.getVertexSet()[1]);
-		for(int i = 1; i < lel; i++)
+		for(int i = 1; i < graph1.getVertexSet().size(); i++)
 		{
 			if(idNoOrigem == graph1.getVertexSet()[i].getName())
 				(*ori) = graph1.getVertexSet()[i];
@@ -243,20 +242,20 @@ void exercicio3()
 	inFile.close();
 
 	//graph1.setVertexSet( graph1.topologicalOrder());
-	vector<Vertex> lel = graph1.topologicalOrder();
-	for( int i = lel.size()-1; i >-1;i--)
+	vector<Vertex> output = graph1.topologicalOrder();
+	for( int i = output.size()-1; i >-1;i--)
 	{
 		if(i == 0)
-			cout << lel[i].getName();
+			cout << output[i].getName();
 		else
-			cout << lel[i].getName() << " - ";
+			cout << output[i].getName() << " - ";
 	}
 	//graph1.printGraph();
 	//gv->rearrange();
 }
 
 int main() {
-	Graph graph2;
+	/*Graph graph2;
 	Vertex v1(0 ,"T1", 1);
 	Vertex v2(1, "T2", 2);
 	Vertex v3(2,"T3",3);
@@ -275,7 +274,6 @@ int main() {
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
 
 	vector<Vertex> lel = graph2.topologicalOrder();
-	//cout << lel.size();
 	for(unsigned int i =0; i <lel.size();i++)
 	{
 		if(i == lel.size()-1)
@@ -283,10 +281,10 @@ int main() {
 		else
 			cout << lel[i].getName() << " - ";
 	}
-
+*/
 	//exercicio1();
 	//exercicio2();
-	//exercicio3();
+	exercicio3();
 	//getchar();
 	return 0;
 }
