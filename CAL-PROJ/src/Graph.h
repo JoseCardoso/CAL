@@ -17,13 +17,18 @@ using namespace std;
 
 
 class Graph {
-	vector <Vertex> vertexSet;
+	vector <Vertex> vertexSet,res;
 	vector <Edge> edgeSet;
 	int numCycles;
-
+	int index;
+	stack<Vertex *> stk;
 public:
 
-
+	Graph()
+	{
+		numCycles = 0;
+		index = 0;
+}
 	void addVertex(Vertex v)
 	{
 		vertexSet.push_back(v);
@@ -99,6 +104,21 @@ public:
 		}
 	}
 
+	void resetVertex()
+	{
+		for(unsigned int i = 1; i < vertexSet.size(); i++) {
+			//percorrer o vetor de Edges, e tirar o visited
+			for(unsigned int j = 1; j < vertexSet[i].out.size(); j++) {
+				vertexSet[i].visited = false;
+				vertexSet[i].processing = false;
+				vertexSet[i].inStack = false;
+				vertexSet[i].index=0;
+				vertexSet[i].lowlink=0;
+			}
+		}
+
+	}
+
 	void removeEdge(Vertex* source, Vertex* dest)
 	{
 		for (unsigned int i = 0 ; i < edgeSet.size() ; i++)
@@ -151,16 +171,8 @@ public:
 		}
 	}
 
-
-	vector<Vertex> getSources() const {
-		vector< Vertex> buffer;
-		for(unsigned int i = 1; i < vertexSet.size(); i++) {
-			if( vertexSet[i].indegree == 0 ) buffer.push_back( vertexSet[i] );
-		}
-		return buffer;
-	}
-
 	vector<Vertex> topologicalOrder() {
+
 		//vetor com o resultado da ordenacao
 		vector<Vertex> res;
 
@@ -196,15 +208,77 @@ public:
 		}
 
 		//testar se o procedimento foi bem sucedido
-	/*	if ( res.size() != vertexSet.size() -1 ) {
+		/*	if ( res.size() != vertexSet.size() -1 ) {
 			while( !res.empty() ) res.pop_back();
 		}
-*/
+		 */
 		//garantir que os "indegree" ficam atualizados no final
 		//this->resetIndegrees();
 		return res;
 	}
 
+	void scc(Vertex * v)
+	{
+
+		v->visited  = true;
+		stk.push(v);
+		v->inStack = true;
+		v->index = index;
+		v->lowlink = index;
+		index++;
+		for(unsigned int j=0;j<edgeSet.size();j++)
+		{
+
+			if(edgeSet[j].source->name == v->name)
+			{
+				Vertex * w = edgeSet[j].dest;
+				if( !(w->visited )){
+					scc( w );
+					v->lowlink = min( v->lowlink,w->lowlink );
+				}
+				else if((*v).inStack ){
+					v->lowlink = min( v->lowlink,w->index );
+				}
+			}
+		}
+		if(v->lowlink!=v->index ) return;
+		// found new component
+		int i = 1, p = v->priority;
+		string tname = "{";
+		while( stk.top()->name!= v->name ){
+			Vertex * v = stk.top();
+			stk.pop();
+			p += v->priority;
+			tname += v->name;
+			tname += "-";
+			i++;
+			for(unsigned k = 0; k < res.size(); k++)
+				if(res[k].name == v->name)
+					res.erase(res.begin()+k);
+		}
+		stk.pop();
+		tname += v->name;
+		tname += "}";
+		p = p/i;
+		v->name = tname;
+		v->priority = p;
+	}
+
+	void stronglyConnected()
+	{
+		res = vertexSet;
+		for(unsigned int i=1;i< res.size();i++)
+		{
+			if( res[i].visited )
+				continue;
+
+			scc( &res[i] );
+
+		}
+
+		vertexSet = res;
+		resetVertex();
+	}
 
 	vector<Edge> getEdgeSet() const {
 		return edgeSet;

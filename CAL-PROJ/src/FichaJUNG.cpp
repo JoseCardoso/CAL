@@ -229,7 +229,7 @@ void exercicio3()
 		ori = &(graph1.getVertexSet()[1]);
 		Vertex * desti;
 		desti= &(graph1.getVertexSet()[1]);
-		for(int i = 1; i < graph1.getVertexSet().size(); i++)
+		for(unsigned int i = 1; i < graph1.getVertexSet().size(); i++)
 		{
 			if(idNoOrigem == graph1.getVertexSet()[i].getName())
 				(*ori) = graph1.getVertexSet()[i];
@@ -242,6 +242,7 @@ void exercicio3()
 	inFile.close();
 
 	//graph1.setVertexSet( graph1.topologicalOrder());
+	graph1.stronglyConnected();
 	vector<Vertex> output = graph1.topologicalOrder();
 	for( int i = output.size()-1; i >-1;i--)
 	{
@@ -270,9 +271,11 @@ int main() {
 
 	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[3])));
+	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[1])));
 	graph2.addEdge((&(graph2.getVertexSet()[4])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
 
+	graph2.stronglyConnected();
 	vector<Vertex> lel = graph2.topologicalOrder();
 	for(unsigned int i =0; i <lel.size();i++)
 	{

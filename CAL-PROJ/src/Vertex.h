@@ -12,11 +12,12 @@ class Vertex {
 	int id;
 	int indegree;
 	int priority;
+	int index, lowlink;
 	vector< Edge > out;
 	vector< Edge > in;
 	bool visited;
 	bool processing;
-
+	bool inStack;
 public:
 
 	friend class Graph;
@@ -28,6 +29,9 @@ public:
 		indegree = 0;
 		visited = false;
 		processing = false;
+		index = 0;
+		lowlink = 0;
+		inStack = false;
 	}
 
 	bool operator< (const Vertex &v2) const
