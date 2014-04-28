@@ -51,6 +51,22 @@ public:
 		edgeSet.push_back(edge);
 	}
 
+	void addEdge (Edge edge)
+	{
+		edge.source->addEdgeOut(edge);
+		edge.dest->addEdgeIn(edge);
+
+		for (unsigned int i = 1 ; i < vertexSet.size() ; i++)
+		{
+			if (vertexSet[i].name == edge.source->name)
+			{
+				vertexSet[i].indegree++;
+			}
+		}
+
+		edgeSet.push_back(edge);
+	}
+
 
 
 	void removeVertex(Vertex v)
@@ -282,6 +298,89 @@ public:
 		vertexSet = res;
 		resetVertex();
 	}
+
+
+
+
+
+	void invertGraph(Graph &gr) {
+		vector<Vertex>::const_iterator it= vertexSet.begin();
+		vector<Vertex>::const_iterator ite= vertexSet.end();
+
+		// 1. clone vertices
+		for (; it !=ite; it++) {
+			gr.addVertex((*it));
+			gr.vertexSet[gr.getVertexSet().size()-1].id = it->getId();
+			gr.vertexSet[gr.getVertexSet().size()-1].visited = false;
+		}
+
+		// 2. invert edges
+		for (it=vertexSet.begin(); it !=ite; it++) {
+			vector<Edge>::iterator edgeIt= it->getOut().begin();
+			vector<Edge>::iterator edgeIte= it->getOut().end();
+			for (; edgeIt !=edgeIte; edgeIt++) {
+				gr.addEdge(edgeIt->dest, edgeIt->source);
+			}
+		}
+	}
+
+
+
+
+	vector<vector <Vertex> > findStrongComponents() {
+
+		//  1. Numbering in pos-order
+		vector<Vertex > res = topologicalOrder();
+
+		// 2. Gr = inverted graph (with all edges inverted and vertices not visited)
+		Graph Gr;
+		invertGraph(Gr);
+
+		// 3. find strong components
+		vector<vector<Vertex> > vres;
+		vector<Vertex> vc;
+		do {
+			// 3.1 get tree with highest-numbered vertex (not visited) as root
+			vc = Gr.dfsHighestNumberedVertex();
+			if (!vc.empty())
+				vres.push_back(vc);
+		} while (!vc.empty());
+		return vres;
+	}
+
+
+
+	int getHighestCounterNPO() {
+		int counterNPO = 0;
+		vector<Vertex>::const_iterator it= vertexSet.begin();
+		vector<Vertex>::const_iterator ite= vertexSet.end();
+		for (; it !=ite; it++) {
+			if (!it->visited)
+				if (it->getId() > counterNPO)
+					counterNPO =it->getId();
+		}
+	//	cout << "getCounterNPO: " << counterNPO << endl;
+		return counterNPO;
+	}
+
+
+
+	vector<Vertex> dfsHighestNumberedVertex(int highestCounter)  {
+		vector<Vertex>::const_iterator it= vertexSet.begin();
+		vector<Vertex>::const_iterator ite= vertexSet.end();
+		vector<Vertex> res;
+	//	cout << "dfsHighestNumberedVertex(" << highestCounter << "): ";
+		for (; it !=ite; it++)
+		    if ( it->getNum()==highestCounter )
+		    	dfsHighestNumberedTree(it,res);
+	//	cout << endl;
+		return res;
+	}
+
+	vector<Vertex> dfsHighestNumberedVertex() {
+		return dfsHighestNumberedVertex(getHighestCounterNPO());
+	}
+
 
 	vector<Edge> getEdgeSet() const {
 		return edgeSet;

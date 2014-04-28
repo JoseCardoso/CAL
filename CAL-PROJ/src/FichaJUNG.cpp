@@ -276,13 +276,30 @@ int main() {
 	graph2.addVertex (v3);
 	graph2.addVertex (v4);
 	graph2.addVertex (v5);
+	Edge * edge1;
+	Edge * edge2;
+	Edge * edge3;
+	Edge * edge4;
+	Edge * edge5;
+	edge1 = new Edge(&(graph2.getVertexSet()[3]),&(graph2.getVertexSet()[5]));
+	edge2 = new Edge(&(graph2.getVertexSet()[1]),&(graph2.getVertexSet()[3]));
+	edge3 = new Edge(&(graph2.getVertexSet()[5]),&(graph2.getVertexSet()[1]));
+	edge4 = new Edge(&(graph2.getVertexSet()[4]),&(graph2.getVertexSet()[5]));
+	edge5 = new Edge(&(graph2.getVertexSet()[2]),&(graph2.getVertexSet()[4]));
 
+	graph2.addEdge(*edge1);
+	graph2.addEdge(*edge2);
+	graph2.addEdge(*edge3);
+	graph2.addEdge(*edge4);
+	graph2.addEdge(*edge5);
+
+	/*
 	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[3])));
 	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[4])));
 	graph2.addEdge((&(graph2.getVertexSet()[4])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
-
+*/
 	graph2.stronglyConnected();
 	vector<Vertex> lel = graph2.topologicalOrder();
 	for(unsigned int i =0; i <lel.size();i++)
@@ -295,7 +312,7 @@ int main() {
 
 	//exercicio1();
 	//exercicio2();
-//	exercicio3();
+	//exercicio3();
 	//getchar();
 	return 0;
 }
