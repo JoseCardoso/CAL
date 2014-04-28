@@ -25,7 +25,7 @@ class Graph {
 public:
 
 	Graph()
-	{
+{
 		numCycles = 0;
 		index = 0;
 }
@@ -218,56 +218,59 @@ public:
 	}
 
 	void scc(Vertex * v)
-	{
-
-		v->visited  = true;
-		stk.push(v);
-		v->inStack = true;
-		v->index = index;
-		v->lowlink = index;
-		index++;
-		for(unsigned int j=0;j<edgeSet.size();j++)
 		{
 
-			if(edgeSet[j].source->name == v->name)
+			v->visited  = true;
+			stk.push(v);
+			v->inStack = true;
+			v->index = index;
+			v->lowlink = index;
+			index++;
+			for(unsigned int j=0;j<edgeSet.size();j++)
 			{
-				Vertex * w = edgeSet[j].dest;
-				if( !(w->visited )){
-					scc( w );
-					v->lowlink = min( v->lowlink,w->lowlink );
-				}
-				else if((*v).inStack ){
-					v->lowlink = min( v->lowlink,w->index );
+
+				if(edgeSet[j].source->name == v->name)
+				{
+					Vertex * w = edgeSet[j].dest;
+					if( !(w->visited )){
+						scc( w );
+						v->lowlink = min( v->lowlink,w->lowlink );
+					}
+					else if((*v).inStack ){
+						v->lowlink = min( v->lowlink,w->index );
+					}
 				}
 			}
-		}
-		if(v->lowlink!=v->index ) return;
-		// found new component
-		int i = 1, p = v->priority;
-		string tname = "{";
-		while( stk.top()->name!= v->name ){
-			Vertex * v = stk.top();
+			if(v->lowlink!=v->index ) return;
+			// found new component
+			int i = 1, p = v->priority;
+			string tname = "{";
+			while( stk.top()->name!= v->name ){
+				Vertex * v = stk.top();
+				stk.pop();
+				p += v->priority;
+				tname += v->name;
+				tname += "-";
+				i++;
+				for(unsigned k = 0; k < res.size(); k++)
+					if(res[k].name == v->name)
+					{
+						res.erase(res.begin()+k);
+
+					}
+			}
 			stk.pop();
-			p += v->priority;
 			tname += v->name;
-			tname += "-";
-			i++;
-			for(unsigned k = 0; k < res.size(); k++)
-				if(res[k].name == v->name)
-					res.erase(res.begin()+k);
+			tname += "}";
+			p = p/i;
+			v->name = tname;
+			v->priority = p;
 		}
-		stk.pop();
-		tname += v->name;
-		tname += "}";
-		p = p/i;
-		v->name = tname;
-		v->priority = p;
-	}
 
 	void stronglyConnected()
 	{
 		res = vertexSet;
-		for(unsigned int i=1;i< res.size();i++)
+		for(unsigned int i=1; i< res.size();i++)
 		{
 			if( res[i].visited )
 				continue;

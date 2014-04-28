@@ -176,7 +176,7 @@ void exercicio3()
 
 	int idNo=0;
 	string info;//X = 0,Y= 0;
-	int priority;
+	int priority = 0;
 	Vertex pointerProtector(-1,"info",0);//este vertice serve para preencher o elemento 0 do vector, que da erro a passar para apontador
 	graph1.addVertex(pointerProtector);
 	while(std::getline(inFile, line))
@@ -184,12 +184,15 @@ void exercicio3()
 		std::stringstream linestream(line);
 		std::string         data;
 
+
 		linestream >> idNo;
 
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> info;//X;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> priority;//Y;
+		std::getline(inFile, data);  // read up-to the first ; (discard ;).
+		info = data;//X;
+		std::getline(inFile, data);  // read up-to the first ; (discard ;).
+		stringstream linestream2 (data);
+		linestream2 >> priority;//Y;
+
 		Vertex vertex(idNo,info,priority);
 		graph1.addVertex(vertex);
 		//gv->addNode(idNo,X,Y);
@@ -209,8 +212,8 @@ void exercicio3()
 	}
 
 	int idAresta=0;
-	string idNoOrigem;
-	string idNoDestino;
+	int idNoOrigem=0;
+	int idNoDestino=0;
 
 	while(std::getline(inFile, line))
 	{
@@ -219,10 +222,13 @@ void exercicio3()
 
 		linestream >> idAresta;
 
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> idNoOrigem;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-		linestream >> idNoDestino;
+		std::getline(inFile, data);  // read up-to the first ; (discard ;).
+		stringstream linestream2 (data);
+		linestream2 >> idNoOrigem;
+		std::getline(inFile, data);  // read up-to the first ; (discard ;).
+		stringstream linestream3 (data);
+		linestream3 >> idNoDestino;
+
 		// gv->addEdge(idAresta,idNoOrigem,idNoDestino, EdgeType::DIRECTED);
 		// gv->rearrange();
 		Vertex * ori ;
@@ -231,9 +237,9 @@ void exercicio3()
 		desti= &(graph1.getVertexSet()[1]);
 		for(unsigned int i = 1; i < graph1.getVertexSet().size(); i++)
 		{
-			if(idNoOrigem == graph1.getVertexSet()[i].getName())
+			if(idNoOrigem == graph1.getVertexSet()[i].getId())
 				(*ori) = graph1.getVertexSet()[i];
-			if(idNoDestino == graph1.getVertexSet()[i].getName())
+			if(idNoDestino == graph1.getVertexSet()[i].getId())
 				(*desti) = graph1.getVertexSet()[i];
 		}
 		graph1.addEdge(ori,desti);
@@ -243,6 +249,7 @@ void exercicio3()
 
 	//graph1.setVertexSet( graph1.topologicalOrder());
 	graph1.stronglyConnected();
+	cout << graph1.getVertexSet().size();
 	vector<Vertex> output = graph1.topologicalOrder();
 	for( int i = output.size()-1; i >-1;i--)
 	{
@@ -256,7 +263,8 @@ void exercicio3()
 }
 
 int main() {
-	/*Graph graph2;
+
+	Graph graph2;
 	Vertex v1(0 ,"T1", 1);
 	Vertex v2(1, "T2", 2);
 	Vertex v3(2,"T3",3);
@@ -271,7 +279,7 @@ int main() {
 
 	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[3])));
-	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[1])));
+	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[4])));
 	graph2.addEdge((&(graph2.getVertexSet()[4])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
 
@@ -284,10 +292,10 @@ int main() {
 		else
 			cout << lel[i].getName() << " - ";
 	}
-*/
+
 	//exercicio1();
 	//exercicio2();
-	exercicio3();
+//	exercicio3();
 	//getchar();
 	return 0;
 }
