@@ -22,6 +22,19 @@ public:
 
 	friend class Graph;
 
+	Vertex()
+	{
+		id = 0;
+		name = "name";
+		priority = 0;
+		indegree = 0;
+		visited = false;
+		processing = false;
+		index = 0;
+		lowlink = 0;
+		inStack = false;
+	}
+
 	Vertex ( int id ,string name , int priority){
 		this->id = id;
 		this->name = name;
@@ -42,20 +55,20 @@ public:
 			return priority < v2.priority;
 	}
 
-	
+
 	bool removeEdgeTo(Vertex *d) {
 		d->indegree--;//adicionado do exercicio 5
 		vector<Edge >::iterator it = out.begin();
 		vector<Edge >::iterator ite= out.end();
-	while (it!=ite) {
-		if (it->dest == d) {
-			out.erase(it);
-			return true;
+		while (it!=ite) {
+			if (it->dest == d) {
+				out.erase(it);
+				return true;
+			}
+			else it++;
 		}
-		else it++;
+		return false;
 	}
-	return false;
-}
 
 	void addEdgeOut ( Edge edge )
 	{
