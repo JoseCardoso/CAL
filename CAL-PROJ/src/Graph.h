@@ -26,10 +26,10 @@ class Graph {
 public:
 
 	Graph()
-	{
+{
 		numCycles = 0;
 		index = 0;
-	}
+}
 	void addVertex(Vertex v)
 	{
 		vertexSet.push_back(v);
@@ -240,7 +240,6 @@ public:
 		v->visited  = true;
 		stk.push(v);
 
-		//printf("%s\n", &(stk.top()->name));
 		v->inStack = true;
 		v->index = index;
 		v->lowlink = index;
@@ -294,12 +293,11 @@ public:
 		{
 			if( vertexSet[i].visited )
 				continue;
-
 			losses = scc( &vertexSet[i] );
 
 		}
 		vertexSet = res;
-
+		/*
 		//Verifica se o algoritmo de tarjan perdeu algum vertice, e recupera esse vertice
 		if(vertexSet.size() != res.size()+losses)
 		{
@@ -321,7 +319,8 @@ public:
 					res.push_back(vertexSet[i]);
 			}
 		}
-		vertexSet = res;
+
+		vertexSet = res;*/
 		resetVertex();
 	}
 

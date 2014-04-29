@@ -249,11 +249,11 @@ void exercicio3()
 
 	//graph1.setVertexSet( graph1.topologicalOrder());
 	graph1.stronglyConnected();
-	cout << graph1.getVertexSet().size();
+
 	vector<Vertex> output = graph1.topologicalOrder();
-	for( int i = output.size()-1; i >-1;i--)
+	for(unsigned int i = 1; i < output.size();i++)
 	{
-		if(i == 0)
+		if(i == output.size()-1)
 			cout << output[i].getName();
 		else
 			cout << output[i].getName() << " - ";
@@ -276,6 +276,7 @@ int main() {
 	graph2.addVertex (v3);
 	graph2.addVertex (v4);
 	graph2.addVertex (v5);
+
 	Edge * edge1;
 	Edge * edge2;
 	Edge * edge3;
@@ -292,8 +293,8 @@ int main() {
 	graph2.addEdge(*edge3);
 	graph2.addEdge(*edge4);
 	graph2.addEdge(*edge5);
-
 */
+
 	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[3])));
 	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[4])));
