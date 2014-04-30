@@ -249,11 +249,11 @@ void exercicio3()
 
 	//graph1.setVertexSet( graph1.topologicalOrder());
 	graph1.stronglyConnected();
-
+	cout << graph1.getVertexSet().size();
 	vector<Vertex> output = graph1.topologicalOrder();
-	for(unsigned int i = 1; i < output.size();i++)
+	for( int i = output.size()-1; i >-1;i--)
 	{
-		if(i == output.size()-1)
+		if(i == 0)
 			cout << output[i].getName();
 		else
 			cout << output[i].getName() << " - ";
@@ -266,18 +266,25 @@ int main() {
 
 	Graph graph2;
 	Vertex v1(0 ,"T1", 1);
-	Vertex v2(1, "T2", 2);
-	Vertex v3(2,"T3",3);
-	Vertex v4(3,"T4",2);
-	Vertex v5(4,"T5",2);
-	graph2.addVertex(v1);
+	Vertex v2(1, "T2", 3);
+	Vertex v3(2,"T3",1);
+	Vertex v4(3,"T4",3);
+	Vertex v5(4,"T5",3);
+	Vertex v6(5 ,"T6", 3);
+	Vertex v7(6, "T7", 2);
+	Vertex v8(7,"T8",3);
+	Vertex v9(8,"T9",1);
+
 	graph2.addVertex(v1);
 	graph2.addVertex (v2);
 	graph2.addVertex (v3);
 	graph2.addVertex (v4);
 	graph2.addVertex (v5);
-
-	Edge * edge1;
+	graph2.addVertex (v6);
+	graph2.addVertex (v7);
+	graph2.addVertex (v8);
+	graph2.addVertex (v9);
+	/*Edge * edge1;
 	Edge * edge2;
 	Edge * edge3;
 	Edge * edge4;
@@ -287,26 +294,33 @@ int main() {
 	edge3 = new Edge(&(graph2.getVertexSet()[5]),&(graph2.getVertexSet()[1]));
 	edge4 = new Edge(&(graph2.getVertexSet()[4]),&(graph2.getVertexSet()[5]));
 	edge5 = new Edge(&(graph2.getVertexSet()[2]),&(graph2.getVertexSet()[4]));
-/*
+
+	cout<< graph2.getVertexSet()[0].getName()<<endl;
+
 	graph2.addEdge(*edge1);
 	graph2.addEdge(*edge2);
 	graph2.addEdge(*edge3);
 	graph2.addEdge(*edge4);
 	graph2.addEdge(*edge5);
-*/
+	 */
 
-	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[5])));
-	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[3])));
-	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[4])));
+	graph2.addEdge((&(graph2.getVertexSet()[0])),(&(graph2.getVertexSet()[1])));
+	graph2.addEdge((&(graph2.getVertexSet()[0])),(&(graph2.getVertexSet()[5])));
 	graph2.addEdge((&(graph2.getVertexSet()[4])),(&(graph2.getVertexSet()[5])));
+	graph2.addEdge((&(graph2.getVertexSet()[5])),(&(graph2.getVertexSet()[8])));
+	graph2.addEdge((&(graph2.getVertexSet()[8])),(&(graph2.getVertexSet()[7])));
+	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[2])));
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
-
-	graph2.stronglyConnected();
+	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[6])));
+//	graph2.addEdge((&(graph2.getVertexSet()[6])),(&(graph2.getVertexSet()[2])));
+	graph2.addEdge((&(graph2.getVertexSet()[6])),(&(graph2.getVertexSet()[7])));
+	//graph2.stronglyConnected();
 	vector<Vertex> lel = graph2.topologicalOrder();
+//	vector<Vertex> lel = graph2.getVertexSet();
 	for(unsigned int i =0; i <lel.size();i++)
 	{
 		if(i == lel.size()-1)
-			cout << lel[i].getName();
+			cout << lel[i].getName() << endl;
 		else
 			cout << lel[i].getName() << " - ";
 	}

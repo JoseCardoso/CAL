@@ -22,7 +22,6 @@ class Graph {
 	int numCycles;
 	int index;
 	stack<Vertex *> stk;
-	Vertex vtemp;
 public:
 
 	Graph()
@@ -41,14 +40,18 @@ public:
 		source->addEdgeOut(edge);
 		dest->addEdgeIn(edge);
 
-		for (unsigned int i = 1 ; i < vertexSet.size() ; i++)
+		/*for (unsigned int i = 0 ; i < vertexSet.size() ; i++)
 		{
+			if (vertexSet[i].name == dest->name)
+			{
+				vertexSet[i].addEdgeIn(edge);
+			}
 			if (vertexSet[i].name == source->name)
 			{
-				vertexSet[i].indegree++;
+				vertexSet[i].addEdgeOut(edge);
 			}
 		}
-
+		 */
 		edgeSet.push_back(edge);
 	}
 
@@ -57,7 +60,7 @@ public:
 		edge.source->addEdgeOut(edge);
 		edge.dest->addEdgeIn(edge);
 
-		for (unsigned int i = 1 ; i < vertexSet.size() ; i++)
+		for (unsigned int i = 0 ; i < vertexSet.size() ; i++)
 		{
 			if (vertexSet[i].name == edge.source->name)
 			{
@@ -73,7 +76,7 @@ public:
 	void removeVertex(Vertex v)
 	{
 
-		for (unsigned int i = 1 ; i < vertexSet.size() ; i++)
+		for (unsigned int i = 0 ; i < vertexSet.size() ; i++)
 		{
 			if (vertexSet[i].name == v.name)
 			{
@@ -109,21 +112,19 @@ public:
 
 	void resetIndegrees() {
 		//colocar todos os indegree em 0;
-		for(unsigned int i = 1; i < vertexSet.size(); i++)
+		for(unsigned int i = 0; i < vertexSet.size(); i++)
 			vertexSet[i].indegree = 0;
 
 		//actualizar os indegree
-		for(unsigned int i = 1; i < vertexSet.size(); i++) {
+		for(unsigned int i = 0; i < vertexSet.size(); i++) {
 			//percorrer o vetor de Edges, e atualizar indegree
-			for(unsigned int j = 1; j < vertexSet[i].out.size(); j++) {
-				vertexSet[i].out[j].dest->indegree++;
-			}
+			vertexSet[i].indegree = vertexSet[i].in.size();
 		}
 	}
 
 	void resetVertex()
 	{
-		for(unsigned int i = 1; i < vertexSet.size(); i++) {
+		for(unsigned int i = 0; i < vertexSet.size(); i++) {
 			//percorrer o vetor de Edges, e tirar o visited
 			for(unsigned int j = 1; j < vertexSet[i].out.size(); j++) {
 				vertexSet[i].visited = false;
@@ -176,12 +177,12 @@ public:
 	}
 
 	void dfsVisit() {
-		for ( unsigned int i = 1 ; i < vertexSet.size() ; i++)
+		for ( unsigned int i = 0 ; i < vertexSet.size() ; i++)
 		{
 			vertexSet[i].setVisited(false);
 
 		}
-		for (unsigned int i = 1 ; i < vertexSet.size() ; i++)
+		for (unsigned int i = 0 ; i < vertexSet.size() ; i++)
 		{
 			if (!vertexSet[i].isVisited())
 				dfsVisit(&vertexSet[i]);
@@ -200,7 +201,7 @@ public:
 		}
 
 		//garantir que os "indegree" estao inicializados corretamente
-		//this->resetIndegrees();
+		this->resetIndegrees();
 
 		priority_queue<Vertex> q;
 
@@ -220,26 +221,36 @@ public:
 
 			for(unsigned int i = 0; i < v.out.size(); i++) {
 				v.out[i].dest->indegree--;
-				if( v.out[i].dest->indegree == 0) q.push( (*v.out[i].dest));
+				while( !q.empty())
+				{
+					Vertex t = q.top();
+					if(t.name == 	v.out[i].dest->name)
+					{
+						q.pop();
+						q.push(*(v.out[i].dest));
+					}
+				}
 			}
+
+
+
 		}
 
 		//testar se o procedimento foi bem sucedido
-		/*	if ( res.size() != vertexSet.size() -1 ) {
+	/*	if ( res.size() != vertexSet.size()  ) {
 			while( !res.empty() ) res.pop_back();
 		}
-		 */
+*/
 		//garantir que os "indegree" ficam atualizados no final
-		//this->resetIndegrees();
+		this->resetIndegrees();
 		return res;
 	}
 
-	int scc(Vertex * v)
+	void scc(Vertex * v)
 	{
 
 		v->visited  = true;
 		stk.push(v);
-
 		v->inStack = true;
 		v->index = index;
 		v->lowlink = index;
@@ -259,20 +270,23 @@ public:
 				}
 			}
 		}
-		if(v->lowlink!=v->index ) return 0;
+		if(v->lowlink!=v->index ) return;
 		// found new component
 		int i = 1, p = v->priority;
 		string tname = "{";
 		while( stk.top()->name!= v->name ){
-			if(stk.empty())
-				break;
 			Vertex * v = stk.top();
 			stk.pop();
 			p += v->priority;
-
 			tname += v->name;
 			tname += "-";
 			i++;
+			/*	for(unsigned k = 0; k < res.size(); k++)
+					if(res[k].name == v->name)
+					{
+						res.erase(res.begin()+k);
+
+					}*/
 		}
 		stk.pop();
 		tname += v->name;
@@ -280,51 +294,25 @@ public:
 		p = p/i;
 		v->name = tname;
 		v->priority = p;
-		vtemp = (*v);
-		res.push_back(vtemp);
-		return --i;
 	}
 
 	void stronglyConnected()
 	{
-		res.push_back(vertexSet[0]);
-		int losses =0;
-		for(unsigned int i=1; i< vertexSet.size();i++)
+		res = vertexSet;
+		for(unsigned int i=1; i< res.size();i++)
 		{
-			if( vertexSet[i].visited )
+			if( res[i].visited )
 				continue;
-			losses = scc( &vertexSet[i] );
+
+			scc( &res[i] );
 
 		}
+
 		vertexSet = res;
-		/*
-		//Verifica se o algoritmo de tarjan perdeu algum vertice, e recupera esse vertice
-		if(vertexSet.size() != res.size()+losses)
-		{
-			for(unsigned int i = 0; i < vertexSet.size();i++)
-			{
-				bool exists = false;
-				for(unsigned int j = 0; j < res.size();j++)
-				{
-					string n1,n2;
-					n1 = res[j].name;
-					n2 = vertexSet[i].name;
-					if(n1.find(n2) != string::npos)
-					{
-						exists = true;
-					}
-
-				}
-				if(!exists)
-					res.push_back(vertexSet[i]);
-			}
-		}
-
-		vertexSet = res;*/
 		resetVertex();
 	}
 
-	vector<Edge> getEdgeSet() const {
+	vector<Edge> &getEdgeSet() {
 		return edgeSet;
 	}
 
@@ -332,7 +320,7 @@ public:
 		this->edgeSet = edgeSet;
 	}
 
-	vector<Vertex> getVertexSet() const {
+	vector<Vertex> &getVertexSet()  {
 		return vertexSet;
 	}
 
