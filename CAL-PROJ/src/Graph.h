@@ -194,6 +194,7 @@ public:
 		//vetor com o resultado da ordenacao
 		vector<Vertex> res;
 
+
 		//verificar se ee um DAG
 		if( getNumCycles() > 0 ) {
 			cout << "Ordenacao Impossivel!" << endl;
@@ -203,10 +204,10 @@ public:
 		//garantir que os "indegree" estao inicializados corretamente
 		this->resetIndegrees();
 
-		priority_queue<Vertex> q;
+		priority_queue<Vertex> q, qtemp;
 
 		vector<Vertex> sources = vertexSet;
-		sources.erase(sources.begin());
+
 		while( !sources.empty() ) {
 			q.push( sources.back() );
 			sources.pop_back();
@@ -221,15 +222,19 @@ public:
 
 			for(unsigned int i = 0; i < v.out.size(); i++) {
 				v.out[i].dest->indegree--;
-				while( !q.empty())
+
+				while(!q.empty())
 				{
 					Vertex t = q.top();
-					if(t.name == 	v.out[i].dest->name)
-					{
-						q.pop();
-						q.push(*(v.out[i].dest));
-					}
+					q.pop();
+					if(t.name == v.out[i].dest->name)
+						qtemp.push(*(v.out[i].dest));
+					else
+						qtemp.push(t);
 				}
+				q = qtemp;
+				while(!qtemp.empty())
+					qtemp.pop();
 			}
 
 
@@ -237,10 +242,10 @@ public:
 		}
 
 		//testar se o procedimento foi bem sucedido
-	/*	if ( res.size() != vertexSet.size()  ) {
+		/*	if ( res.size() != vertexSet.size()  ) {
 			while( !res.empty() ) res.pop_back();
 		}
-*/
+		 */
 		//garantir que os "indegree" ficam atualizados no final
 		this->resetIndegrees();
 		return res;

@@ -265,6 +265,8 @@ void exercicio3()
 int main() {
 
 	Graph graph2;
+
+
 	Vertex v1(0 ,"T1", 1);
 	Vertex v2(1, "T2", 3);
 	Vertex v3(2,"T3",1);
@@ -284,6 +286,7 @@ int main() {
 	graph2.addVertex (v7);
 	graph2.addVertex (v8);
 	graph2.addVertex (v9);
+
 	/*Edge * edge1;
 	Edge * edge2;
 	Edge * edge3;
@@ -312,17 +315,18 @@ int main() {
 	graph2.addEdge((&(graph2.getVertexSet()[1])),(&(graph2.getVertexSet()[2])));
 	graph2.addEdge((&(graph2.getVertexSet()[2])),(&(graph2.getVertexSet()[3])));
 	graph2.addEdge((&(graph2.getVertexSet()[3])),(&(graph2.getVertexSet()[6])));
-//	graph2.addEdge((&(graph2.getVertexSet()[6])),(&(graph2.getVertexSet()[2])));
+	//	graph2.addEdge((&(graph2.getVertexSet()[6])),(&(graph2.getVertexSet()[2])));
 	graph2.addEdge((&(graph2.getVertexSet()[6])),(&(graph2.getVertexSet()[7])));
 	//graph2.stronglyConnected();
-	vector<Vertex> lel = graph2.topologicalOrder();
-//	vector<Vertex> lel = graph2.getVertexSet();
-	for(unsigned int i =0; i <lel.size();i++)
+
+	vector<Vertex> output = graph2.topologicalOrder();
+	//	vector<Vertex> lel = graph2.getVertexSet();
+	for(unsigned int i =0; i <output.size();i++)
 	{
-		if(i == lel.size()-1)
-			cout << lel[i].getName() << endl;
+		if(i == output.size()-1)
+			cout << output[i].getName() << endl;
 		else
-			cout << lel[i].getName() << " - ";
+			cout << output[i].getName() << " - ";
 	}
 
 	//exercicio1();
