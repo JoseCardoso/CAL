@@ -251,6 +251,18 @@ public:
 		return res;
 	}
 
+	void generateComponentVertex()
+	{
+		stack<Vertex *> temp;
+		while(!stk.empty())
+		{
+
+
+
+		}
+
+	}
+
 	void scc(Vertex * v)
 	{
 
@@ -277,13 +289,14 @@ public:
 		}
 		if(v->lowlink!=v->index ) return;
 		// found new component
+		//generateComponentVertex();
 		int i = 1, p = v->priority;
 		string tname = "{";
 		while( stk.top()->name!= v->name ){
-			Vertex * v = stk.top();
+			Vertex * vS = stk.top();
 			stk.pop();
-			p += v->priority;
-			tname += v->name;
+			p += vS->priority;
+			tname += vS->name;
 			tname += "-";
 			i++;
 			/*	for(unsigned k = 0; k < res.size(); k++)
@@ -303,17 +316,12 @@ public:
 
 	void stronglyConnected()
 	{
-		res = vertexSet;
-		for(unsigned int i=1; i< res.size();i++)
+		for(unsigned int i=0; i< vertexSet.size();i++)
 		{
-			if( res[i].visited )
-				continue;
-
-			scc( &res[i] );
+			if( !vertexSet[i].visited )
+				scc( &vertexSet[i] );
 
 		}
-
-		vertexSet = res;
 		resetVertex();
 	}
 
