@@ -71,8 +71,8 @@ int main() {
 	//
 	 */
 	graph2.stronglyConnected();
-	//vector<Vertex> output = graph2.topologicalOrder();
-	vector<Vertex> output = graph2.getVertexSet();
+	vector<Vertex> output = graph2.topologicalOrder();
+	//vector<Vertex> output = graph2.getVertexSet();
 	for(unsigned int i =0; i <output.size();i++)
 	{
 		if(i == output.size()-1)
