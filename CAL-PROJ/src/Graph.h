@@ -40,14 +40,6 @@ public:
 		source->addEdgeOut(edge);
 		dest->addEdgeIn(edge);
 
-		/*	for (unsigned int i = 0 ; i < vertexSet.size() ; i++)
-		{
-			if (vertexSet[i].name == edge.source->name)
-			{
-				vertexSet[i].indegree++;
-			}
-		}*/
-
 		edgeSet.push_back(edge);
 	}
 
@@ -191,7 +183,7 @@ public:
 		vector<Vertex> res;
 
 
-		//verificar se ee um DAG
+		//verificar se e um DAG
 		if( getNumCycles() > 0 ) {
 			cout << "Ordenacao Impossivel!" << endl;
 			return res;
@@ -235,8 +227,6 @@ public:
 
 		}
 
-		//garantir que os "indegree" ficam atualizados no final
-		this->resetIndegrees();
 		return res;
 	}
 

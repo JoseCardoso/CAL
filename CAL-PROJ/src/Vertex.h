@@ -44,7 +44,7 @@ public:
 
 	
 	bool removeEdgeTo(Vertex *d) {
-		d->indegree--;//adicionado do exercicio 5
+		d->indegree--;
 		vector<Edge >::iterator it = out.begin();
 		vector<Edge >::iterator ite= out.end();
 	while (it!=ite) {
