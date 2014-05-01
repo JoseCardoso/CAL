@@ -73,20 +73,20 @@ int main() {
 		linestream3 >> idNoDestino;
 
 		Vertex * ori ;
-		ori = &(graph.getVertexSet()[1]);
 		Vertex * desti;
-		desti= &(graph.getVertexSet()[1]);
-		for(unsigned int i = 1; i < graph.getVertexSet().size(); i++)
+		for(unsigned int i = 0; i < graph.getVertexSet().size(); i++)
 		{
 			if(idNoOrigem == graph.getVertexSet()[i].getId())
-				(*ori) = graph.getVertexSet()[i];
+				ori = (&(graph.getVertexSet()[i]));
 			if(idNoDestino == graph.getVertexSet()[i].getId())
-				(*desti) = graph.getVertexSet()[i];
+				desti = (&(graph.getVertexSet()[i]));
+
 		}
 		graph.addEdge(ori,desti);
 	}
 
 	inFile.close();
+
 
 	/*Graph graph2;
 
