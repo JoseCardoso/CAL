@@ -296,19 +296,19 @@ public:
 			tname += vS->name;
 			tname += "-";
 			i++;
-			/*for(unsigned int j = 0; j < vS->out.size();j++)
+			for(unsigned int j = 0; j < vS->out.size();j++)
 				if(vS->out[j].dest->lowlink != vS->lowlink)
 				{
 					Edge temp(v,vS->out[j].dest);
 					v->addEdgeOut(temp);
-				}*/
+				}
 
 		}
-		/*for(unsigned int j = 0; j < v->out.size();j++)
+		for(unsigned int j = 0; j < v->out.size();j++)
 			if(v->out[j].dest->lowlink == v->lowlink)
 			{
 				v->removeEdgeTo(v->out[j].dest);
-			}*/
+			}
 
 		stk.pop();
 		tname += v->name;
@@ -331,11 +331,11 @@ public:
 
 		}
 		vertexSet = res;
-		for(unsigned int i=vertexSet.size()-1; i>=0;i--)
+		/*for(unsigned int i=vertexSet.size()-1; i>=0;i--)
 		{
 			Vertex v = vertexSet[i];
-		}
-		resetVertex();
+		}*/
+		//resetVertex();
 	}
 
 	vector<Edge> &getEdgeSet() {
